@@ -6,9 +6,6 @@
     <title>✨Headroom - Join Newsletter✨</title>
     <link rel="icon" href="https://www.headroom.com/favicon.svg"/>
     <link rel="stylesheet" href="style.css">
-
-    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js"></script>
 </head>
 <body>
     <div class="main">
@@ -39,14 +36,14 @@
                         <div class="field-newsletter">
                             <div class="hn">
                                 <span class="hn1">Join our Newsletter</span>
-                            <span class="hn2">Get the latest updates and insights from Headroom.</span>
+                                <span class="hn2">Get the latest updates and insights from Headroom.</span>
                             </div>
                             <form onsubmit="submitEmail(event)">
                                 <div class="action">
-                                  <input type="email" name="EMAIL" placeholder="Enter your email address" required>
-                                  <button type="submit">Subscribe</button>
+                                    <input type="email" id="email" placeholder="Enter your email address" required>
+                                    <button type="submit">Subscribe</button>
                                 </div>
-                              </form>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -66,10 +63,6 @@
             </div>
         </div>
     </div>
+    <script type="module" src="script.js"></script>
 </body>
-<script type="module" src="script.js">
-</script>
-
-
-
 </html>
