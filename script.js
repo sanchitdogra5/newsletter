@@ -1,34 +1,23 @@
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
-  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+const SUPABASE_URL = 'https://jypqsrruvvlmmvmqttli.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5cHFzcnJ1dnZsbW12bXF0dGxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5MTAwNDEsImV4cCI6MjA2NTQ4NjA0MX0.DvwMxCTP66JSzu3LW3DpoHcXtJUoNkj9L1_JSTTo9QE';
 
-  // Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyAEMP_gHBxkKFF7TXOD4ADaH7C_qeo1fqM",
-    authDomain: "email-subscription-dda4d.firebaseapp.com",
-    databaseURL: "https://email-subscription-dda4d-default-rtdb.firebaseio.com",
-    projectId: "email-subscription-dda4d",
-    storageBucket: "email-subscription-dda4d.appspot.com",
-    messagingSenderId: "448054685690",
-    appId: "1:448054685690:web:e54d52e042302625d1be43",
-    measurementId: "G-R0M2XPY2CY"
-  };
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
-
-  // Form submission handler
-  function submitEmail(event) {
+async function submitEmail(event) {
     event.preventDefault();
-    const email = document.querySelector('input[name="EMAIL"]').value;
 
-    if (email) {
-      const subscribersRef = ref(database, 'subscribers');
-      push(subscribersRef, { email })
-        .then(() => alert('Subscribed successfully!'))
-        .catch((error) => console.error('Error saving email:', error));
+    const emailInput = document.getElementById('email');
+    const email = emailInput.value;
+
+    const { data, error } = await supabase.from('emails').insert([{ email }]);
+
+    if (error) {
+        alert('Failed to store email. Please try again.');
+        console.error(error);
     } else {
-      alert('Please enter a valid email.');
+        alert(`Thank you, ${email}! Your email has been stored.`);
+        emailInput.value = ''; // Clear the input
     }
-  }
+}
