@@ -68,44 +68,40 @@
     </div>
 </body>
 <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyAEMP_gHBxkKFF7TXOD4ADaH7C_qeo1fqM",
-      authDomain: "email-subscription-dda4d.firebaseapp.com",
-      databaseURL: "https://email-subscription-dda4d-default-rtdb.firebaseio.com",
-      projectId: "email-subscription-dda4d",
-      storageBucket: "email-subscription-dda4d.firebasestorage.app",
-      messagingSenderId: "448054685690",
-      appId: "1:448054685690:web:e54d52e042302625d1be43",
-      measurementId: "G-R0M2XPY2CY"
-    };
-  
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 
-    // Form submission handler
-    function submitEmail(event) {
-      event.preventDefault();
-      const email = document.querySelector('input[name="EMAIL"]').value;
+  // Your Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAEMP_gHBxkKFF7TXOD4ADaH7C_qeo1fqM",
+    authDomain: "email-subscription-dda4d.firebaseapp.com",
+    databaseURL: "https://email-subscription-dda4d-default-rtdb.firebaseio.com",
+    projectId: "email-subscription-dda4d",
+    storageBucket: "email-subscription-dda4d.firebasestorage.app",
+    messagingSenderId: "448054685690",
+    appId: "1:448054685690:web:e54d52e042302625d1be43",
+    measurementId: "G-R0M2XPY2CY"
+  };
 
-      if (email) {
-        firebase.database().ref('subscribers').push({ email })
-          .then(() => alert('Subscribed successfully!'))
-          .catch((error) => console.error('Error saving email:', error));
-      } else {
-        alert('Please enter a valid email.');
-      }
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+
+  // Form submission handler
+  function submitEmail(event) {
+    event.preventDefault();
+    const email = document.querySelector('input[name="EMAIL"]').value;
+
+    if (email) {
+      const subscribersRef = ref(database, 'subscribers');
+      push(subscribersRef, { email })
+        .then(() => alert('Subscribed successfully!'))
+        .catch((error) => console.error('Error saving email:', error));
+    } else {
+      alert('Please enter a valid email.');
     }
-    // Reference the Realtime Database
-
-
+  }
 </script>
+
+
 </html>
